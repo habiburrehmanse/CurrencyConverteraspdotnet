@@ -1,0 +1,370 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+@model List<CurrencyConverter.Models.ModelDTO>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+
+<body class="container" style="margin-top:100px">
+    @if (Model.Count > 0)
+    {
+        <div class="row">
+            <table class="table">
+                <thead>
+                    <tr>
+
+                        <th>Vehicle No</th>
+                        <th>Container No</th>
+                        <th>Detail</th>
+                        <th>Weight</th>
+                        <th>Bails</th>
+                        <th>Location</th>
+                        <th>Rate In Pak</th>
+                        <th>Amount</th>
+                        <th>Rate In AED</th>
+                        <th>Cost In AED</th>
+                        <th>Transport In Pak</th>
+                        <th>Transport Rate</th>
+                        <th>Transport Cost In AED</th>
+                        <th>DO Charges</th>
+                        <th>Munciple Charges</th>
+                        <th>Clearness Charges</th>
+                        <th>TAX</th>
+                        <th>Tranport Charges</th>
+                        <th>PUC</th>
+                        <th>Total</th>
+                        <th>Rate</th>
+                        <th>Sale</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rec in Model)
+                    {
+                        <tr>
+
+                            <td>@rec.VehicleNo</td>
+                            <td>@rec.ContainerNo</td>
+                            <td>@rec.Detail</td>
+                            <td>@rec.Weight</td>
+                            <td>@rec.Bails</td>
+                            <td>@rec.Location</td>
+                            <td>@rec.RateInPak</td>
+                            <td>@rec.Amount</td>
+                            <td>@rec.RateInAED</td>
+                            <td>@rec.CostInAED</td>
+                            <td>@rec.TransportInPak</td>
+                            <td>@rec.TransportRate</td>
+                            <td>@rec.TransportCostInAED</td>
+                            <td>@rec.DoCharges</td>
+                            <td>@rec.MoncipleCharges</td>
+                            <td>@rec.ClearnessCharges</td>
+                            <td>@rec.TAX</td>
+                            <td>@rec.TotalCharges</td>
+                            <td>@rec.Rate</td>
+                            <td>@rec.Sale</td>
+                            <td>@rec.Profit</td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+    }
+    <div class="row" style="margin-top:100px">
+        <div class="col-md-6">
+
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Vehicle No</span>
+                </div>
+                <input type="text" id="vehicleno" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Detail</span>
+                </div>
+                <input type="text" id="detail" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Container No</span>
+                </div>
+                <input type="text" id="containerno" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Bails</span>
+                </div>
+                <input type="number" id="bails" onchange="GetPUC()" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Location</span>
+                </div>
+                <input type="text" id="location" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rate in Pakistan</span>
+                </div>
+                <input type="text" id="rateinpak" onchange="calculatePrice()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Weight</span>
+                </div>
+                <input type="number" id="weight" onchange="calculatePrice()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Amount</span>
+                </div>
+                <input type="number" id="amount" readonly class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">AED Rate</span>
+                </div>
+                <input type="number" id="aedrate" onchange="calculatePrice()" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Cost in AED</span>
+                </div>
+                <input type="number" id="aedcost" onchange="GetTotal()" readonly class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Transport in Pak</span>
+                </div>
+                <input type="number" id="tansportinpak" onchange="calculateTransportCost()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Transport Rate</span>
+                </div>
+                <input type="number" id="transportrate" onchange="calculateTransportCost()" class="form-control">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+
+
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Transport Cost in AED</span>
+                </div>
+                <input type="number" readonly id="transportcostinaed" onchange="GetTotal()" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">DO Charges</span>
+                </div>
+                <input type="number" id="docharges" onchange="GetTotal()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Monciple Charges</span>
+                </div>
+                <input type="number" id="monciplecharges" onchange="GetTotal()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Clearness charges</span>
+                </div>
+                <input type="number" id="clearnesscharges" onchange="GetTotal()" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">TAX</span>
+                </div>
+                <input type="number" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Transport Charges</span>
+                </div>
+                <input type="number" id="transportcharges" onchange="GetTotal()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Total Charges</span>
+                </div>
+                <input type="number" id="totalcharges" onchange="GetPUC()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">PUC</span>
+                </div>
+                <input type="number" id="puc" class="form-control">
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Rate</span>
+                </div>
+                <input type="number" id="rate" onchange="GetSale()" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Sale</span>
+                </div>
+                <input type="number" readonly id="sale" class="form-control">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Profit</span>
+                </div>
+                <input type="number" readonly id="profit" class="form-control">
+            </div>
+
+            <button type="button" onclick="saveRecord()" class="btn btn-info">Save</button>
+
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+        function calculatePrice() {
+            var aedrate = parseFloat($("#aedrate").val());
+            var amount = parseFloat($("#amount").val());
+            var weight = parseFloat($("#weight").val());
+            var rateinpak = parseFloat($("#rateinpak").val());
+            $("#amount").val(weight * rateinpak);
+            $("#aedcost").val(amount / aedrate);
+
+
+        }
+
+        function calculateTransportCost() {
+
+            var transport = parseFloat($("#tansportinpak").val());
+            var rate = parseFloat($("#transportrate").val());
+            $("#transportcostinaed").val(transport / rate);
+        }
+
+        function GetTotal() {
+            var total = 0;
+            var transportcharges = parseFloat($("#transportcharges").val());
+            if (transportcharges > 0)
+                total += transportcharges;
+            var clearnesscharges = parseFloat($("#clearnesscharges").val());
+            if (clearnesscharges > 0)
+                total += clearnesscharges;
+            var monciplecharges = parseFloat($("#monciplecharges").val());
+            if (monciplecharges > 0)
+                total += monciplecharges;
+            var docharges = parseFloat($("#docharges").val());
+            if (docharges > 0)
+                total += docharges;
+            var transportcostinaed = parseFloat($("#transportcostinaed").val());
+            if (transportcostinaed > 0)
+                total += transportcostinaed;
+            var aedcost = parseFloat($("#aedcost").val());
+            if (aedcost > 0)
+                total += aedcost;
+            $("#totalcharges").val(total);
+        }
+
+        function GetPUC() {
+
+            var total = parseFloat($("#totalcharges").val());
+            var bails = parseFloat($("#bails").val());
+            $("#puc").val(total / bails);
+            GetSale();
+        }
+
+        function GetSale() {
+            var bails = parseFloat($("#bails").val());
+            var rate = parseFloat($("#rate").val());
+            $("#sale").val(bails * rate);
+
+        }
+
+        function GetProfilt() {
+            var porfit = 0;
+            var sale = parseFloat($("#sale").val());
+            if (sale > 0)
+                porfit = sale;
+            var total = parseFloat($("#totalcharges").val());
+
+            if (total > 0)
+                porfit -= total;
+
+            $("#profit").val(profit);
+        }
+
+        function saveRecord() {
+
+            var model = {
+                VehicleNo: $("#vehicleno").val(),
+                ContainerNo: $("#containerno").val(),
+                Detail: $("#detail").val(),
+                Weight: $("#weigth").val(),
+                Bails: $("#bails").val(),
+                Location: $("#location").val(),
+                RateInPak: $("#rateinpak").val(),
+                Amount: $("#amount").val(),
+                RateInAED: $("#aedrate").val(),
+                CostInAED: $("#aedcost").val(),
+                TransportInPak: $("#tansportinpak").val(),
+                TransportRate: $("#transportrate").val(),
+                TransportCostInAED: $("#transportcostinaed").val(),
+                DoCharges: $("#docharges").val(),
+                MuncipleCharges: $("#monciplecharges").val(),
+                ClearnessCharges: $("#monciplecharges").val(),
+                TAX: $("#monciplecharges").val(),
+                TransportCharges: $("#totalcharges").val(),
+                PUC: $("#puc").val(),
+                Total: $("#Total").val(),
+                Rate: $("#rate").val(),
+                Sale: $("#sale").val(),
+                Profit: $("#profit").val(),
+
+
+            };
+
+            $.ajax({
+                type: 'POST',
+                cache: false,
+                url: '../../Home/SaveRecord',
+                dataType: 'json',
+                data: model,
+                error: function () {
+                    alert("Something went wrong");
+                },
+                success: function (result) {
+                    alert("Saved!");
+                }
+            });
+        }
+    </script>
+</body>
